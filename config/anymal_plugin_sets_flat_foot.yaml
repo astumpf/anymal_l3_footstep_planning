@@ -1,0 +1,152 @@
+plugin_sets:
+  anymal_flat_foot:
+    # StateGeneratorPlugin
+    direct_goal_state_generator: none
+    polygonal_state_generator:
+      params:
+        use_mask: 2
+        reachability_polygons: &reachability_polygons
+          base_polygon: &base_polygon
+            - x: [ 0.00, -0.07, -0.15, -0.07,  0.00,  0.07,  0.15,  0.07]
+              y: [-0.05, -0.05,  0.00,  0.07,  0.10,  0.07,  0.00, -0.05]
+              yaw: [ 0.00, 0.00]
+
+          feet:
+            - <<: *base_polygon
+              idx: 0 # front left
+
+            - <<: *base_polygon
+              idx: 1 # front right
+              mirror_y: True
+              mirror_yaw: True
+
+            - <<: *base_polygon
+              idx: 2 # back left
+              mirror_x: True
+
+            - <<: *base_polygon
+              idx: 3 # back right
+              mirror_x: True
+              mirror_y: True
+              mirror_yaw: True
+
+    anymal_turning_state_generator:
+      params:
+        travel_yaw_use_mask: 4
+        goal_yaw_use_mask: 8
+        neg_use_mask: 2
+        use_superimposition: False
+        reachability_polygons: *reachability_polygons
+        resolution:
+          x: 0.05
+          y: 0.05
+          z: 0.05
+          num_angle_bins: 36 # bins per full turn (0-360°)
+        max_goal_dist: 0.03
+        min_goal_dyaw: 0.0
+        min_travel_dist: 0.5
+        min_travel_dyaw: 0.2
+
+    # ReachabilityPlugins
+    polygonal_reachability:
+      params:
+        reachability_polygons:
+          feet:
+            - <<: *base_polygon
+              idx: 0 # front left
+              yaw: &yaw_limits [-0.34, 0.34]
+
+            - <<: *base_polygon
+              idx: 1 # front right
+              yaw: *yaw_limits
+              mirror_y: True
+              mirror_yaw: True
+
+            - <<: *base_polygon
+              idx: 2 # back left
+              yaw: *yaw_limits
+              mirror_x: True
+
+            - <<: *base_polygon
+              idx: 3 # back right
+              yaw: *yaw_limits
+              mirror_x: True
+              mirror_y: True
+              mirror_yaw: True
+    state_3d_reachability:
+      params:
+        max_step_dz: 0.2
+        max_foothold_roll: 0.5
+        max_foothold_pitch: 0.78
+
+    # StepCostEstimatorPlugins
+    const_step_cost_estimator:
+      params:
+        step_cost: &step_cost 0.1
+    euclidean_step_cost_estimator: none
+    diagonal_step_cost_estimator:
+      params:
+        use_mask: 6
+    ground_contact_step_cost_estimator: none
+
+    # HeuristicPlugins
+    euclidean_heuristic: none
+    step_cost_heuristic:
+      params:
+        use_mask: 6
+        step_cost: *step_cost
+        max_step_dist_x: 0.10
+        max_step_dist_y: 0.07
+    travel_heading_heuristic:
+      import: heading_heuristic
+      params:
+        use_mask: 4
+        travel_dyaw_cost_scale: 0.2
+    goal_heading_heuristic:
+      import: heading_heuristic
+      params:
+        use_mask: 8
+        goal_dyaw_cost_scale: 0.1
+
+    # PostProcessPlugins
+    step_dynamics_post_process:
+      params:
+        sway_duration: 0.0
+        step_duration: 1.0
+        swing_height:  0.1
+    simple_floating_base_post_process: none
+
+    # WorldModelPlugins
+    1_upper_body_grid_map_model:
+      import: upper_body_grid_map_model
+      params:
+        collision_check_flag: 2 # Upper Body
+        topic: /body_level_grid_map
+    2_foot_grid_map_model:
+      import: foot_grid_map_model
+      params:
+        collision_check_flag: 1 # Foot
+        topic: /ground_level_grid_map
+
+    # TerrainModelPlugins
+    terrain_model:
+      import: basic_terrain_model
+      params:
+        topic: /terrain_model
+  vis:
+    step_plan_request_vis: none
+    step_plan_vis: none
+    #upper_body_vis: none
+    planning_feedback_vis: none
+    inverse_kinematics_vis:
+      params:
+        robot_description: "/anymal_description"
+        stabilize_base: False
+        animate_time_scale: 0.25
+    nav_goal_marker_vis:
+      params:
+        step_controller_topic: /l3/footstep_planning/execute_step_plan
+        frame: "odom"
+        planning_horizon: 1.0
+        max_planning_time: 5.0
+
