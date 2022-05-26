@@ -37,14 +37,6 @@
   <depend>anymal_l3_plugins</depend>
   <depend>anymal_l3_config</depend>
 
-  <!-- Dependencies required due to ANYmal build chain system -->
-  <depend>l3_footstep_planning_vis_tools</depend>
-  <depend>l3_footstep_planning_widgets</depend>
-  <depend>l3_terrain_model_generator</depend>
-  <depend>l3_terrain_model_tools</depend>
-  <depend>l3_navigation</depend>
-  <depend>grid_map_l3_terrain_model</depend>
-
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
