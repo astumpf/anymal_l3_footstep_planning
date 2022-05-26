@@ -85,7 +85,6 @@ plugin_sets:
     diagonal_step_cost_estimator:
       params:
         use_mask: 6
-    #ground_contact_step_cost_estimator: none
 
     # HeuristicPlugins
     euclidean_heuristic: none
