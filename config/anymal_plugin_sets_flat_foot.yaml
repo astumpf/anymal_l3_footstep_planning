@@ -136,7 +136,7 @@ plugin_sets:
   vis:
     step_plan_request_vis: none
     step_plan_vis: none
-    #upper_body_vis: none
+    upper_body_vis: none
     planning_feedback_vis: none
     inverse_kinematics_vis:
       params:
