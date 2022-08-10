@@ -435,13 +435,8 @@ Visualization Manager:
           Marker Topic: /l3/footstep_planning/vis/markers
           Name: Planning Vis
           Namespaces:
-            goal: true
-            last_visited_step: false
-            recently_visited_steps: true
-            start: true
             step_plan_floating_base: false
             step_plan_footholds: true
-            total_visited_steps: true
             upper_body: false
           Queue Size: 102
           Value: true
