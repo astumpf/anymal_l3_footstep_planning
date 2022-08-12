@@ -1,0 +1,74 @@
+plugin_sets:
+  anymal_lattice_planning:
+    # StateGeneratorPlugin
+    direct_goal_state_generator:
+      params:
+        strict_mode: True
+    
+    lattice_state_generator:
+      params:
+        expand_neutral_stance: True
+        turn_in_place: True
+        omni_directional: True
+        max_dist: 0.2
+        max_dyaw: 1.57
+        min_curve_radius: 0.5
+        resolution:
+          x: &cell_size 0.05
+          y: *cell_size
+          z: *cell_size
+          num_angle_bins: 72 # bins per full turn (0-360°)
+    # ReachabilityPlugins
+    # TODO: We require a new simple dist check plugin suitable for lattice planning
+    state_3d_reachability:
+      params:
+        max_step_dz: 0.2
+
+    # StepCostEstimatorPlugins
+    const_step_cost_estimator:
+      params:
+        step_cost: &step_cost 0.1
+    euclidean_step_cost_estimator: none
+
+    # HeuristicPlugins
+    euclidean_heuristic: none
+    step_cost_heuristic:
+      params:
+        step_cost: *step_cost
+        max_step_dist_x: 0.20
+        max_step_dist_y: 0.07
+
+    # PostProcessPlugins
+    step_dynamics_post_process:
+      params:
+        sway_duration: 0.0
+        step_duration: 1.0
+        swing_height:  0.1
+    simple_floating_base_post_process:
+      params:
+        post_process_state: True
+        post_process_step_plan: False
+
+    # TerrainModelPlugins
+    terrain_model:
+      import: basic_terrain_model
+      params:
+        topic: /terrain_model
+
+  vis:
+    step_plan_request_vis: none
+    step_plan_vis: none
+    upper_body_vis: none
+    planning_feedback_vis: none
+    inverse_kinematics_vis:
+      params:
+        robot_description: "/anymal_description"
+        stabilize_base: False
+        animate_time_scale: 0.25
+    nav_goal_marker_vis:
+      params:
+        step_controller_topic: /l3/footstep_planning/execute_step_plan
+        frame: "map"
+        planning_horizon: 1.0
+        max_planning_time: 5.0
+

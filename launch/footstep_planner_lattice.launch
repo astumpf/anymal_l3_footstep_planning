@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="ns" default="l3/footstep_planning" />
+  <arg name="gui" default="False" />
+
+  <!-- load robot model -->
+  <include file="$(find anymal_c_simple_description)/launch/load.launch" />
+
+  <include file="$(dirname)/footstep_planner.launch">
+    <arg name="ns" value="$(arg ns)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="foot_type" value="lattice_planning" />
+    <arg name="plugin_set" value="anymal_plugin_sets_lattice_planning" />
+    <arg name="default_params" value="lattice_planning" />
+  </include>
+</launch>
