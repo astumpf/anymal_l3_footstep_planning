@@ -148,7 +148,7 @@ plugin_sets:
     nav_goal_marker_vis:
       params:
         step_controller_topic: /l3/footstep_planning/execute_step_plan
-        frame: "odom"
+        frame: "map"
         planning_horizon: 1.0
         max_planning_time: 5.0
 
