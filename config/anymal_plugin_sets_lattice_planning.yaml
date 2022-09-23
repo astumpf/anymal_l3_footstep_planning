@@ -1,23 +1,26 @@
 plugin_sets:
   anymal_lattice_planning:
     # StateGeneratorPlugin
-    direct_goal_state_generator:
-      params:
-        strict_mode: True
-    
-    lattice_state_generator:
-      params:
+    lattice_goal_state_generator:
+      params: &lattice_params
         expand_neutral_stance: True
         turn_in_place: True
         omni_directional: True
-        max_dist: 0.2
+        max_dist:
+          x: 0.3
+          y: 0.2
         max_dyaw: 1.57
         min_curve_radius: 0.5
+
+    lattice_state_generator:
+      params:
+        <<: *lattice_params
         resolution:
           x: &cell_size 0.05
           y: *cell_size
           z: *cell_size
           num_angle_bins: 72 # bins per full turn (0-360°)
+
     # ReachabilityPlugins
     # TODO: We require a new simple dist check plugin suitable for lattice planning
     state_3d_reachability:
@@ -69,6 +72,7 @@ plugin_sets:
       params:
         step_controller_topic: /l3/footstep_planning/execute_step_plan
         frame: "map"
+        marker_offset_z: 0.5
         planning_horizon: 1.0
         max_planning_time: 5.0
 
