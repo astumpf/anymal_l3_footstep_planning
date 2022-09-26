@@ -143,7 +143,6 @@ plugin_sets:
     inverse_kinematics_vis:
       params:
         robot_description: "/anymal_description"
-        stabilize_base: False
         animate_time_scale: 0.25
     nav_goal_marker_vis:
       params:
