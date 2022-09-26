@@ -146,6 +146,7 @@ plugin_sets:
       params:
         step_controller_topic: /l3/footstep_planning/execute_step_plan
         frame: "map"
+        marker_offset_z: 0.5
         planning_horizon: 1.0
         max_planning_time: 5.0
 
