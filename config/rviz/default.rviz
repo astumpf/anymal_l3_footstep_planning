@@ -433,14 +433,7 @@ Visualization Manager:
           Marker Topic: /l3/footstep_planning/vis/markers
           Name: Planning Vis
           Namespaces:
-            goal: true
-            last_visited_step: true
-            recently_visited_steps: true
-            start: true
-            step_plan_floating_base: false
-            step_plan_footholds: true
-            total_visited_steps: true
-            upper_body: false
+            {}
           Queue Size: 102
           Value: true
       Enabled: true
@@ -451,20 +444,23 @@ Visualization Manager:
       Color: 200; 200; 200
       Color Layer: elevation
       Color Transformer: GridMapLayer
+      ColorMap: default
       Enabled: true
+      Grid Cell Decimation: 1
+      Grid Line Thickness: 0.10000000149011612
       Height Layer: elevation
       Height Transformer: GridMapLayer
       History Length: 1
-      Invert Rainbow: false
+      Invert ColorMap: false
       Max Color: 255; 255; 255
       Max Intensity: 10
       Min Color: 0; 0; 0
       Min Intensity: 0
       Name: Terrain Model
       Show Grid Lines: true
-      Topic: /l3/terrain_model/terrain_model_map
+      Topic: /terrain_model_grid_map
       Unreliable: false
-      Use Rainbow: true
+      Use ColorMap: true
       Value: true
     - Class: rviz/InteractiveMarkers
       Enable Transparency: true
